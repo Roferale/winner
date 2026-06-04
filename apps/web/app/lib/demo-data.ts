@@ -7,6 +7,8 @@ const d = (days: number) => {
   return dt.toISOString().slice(0, 10);
 };
 const fmt = (v: number) => v.toFixed(2);
+// daysOverdue: 0 = em dia, >0 = dias em atraso (para títulos futuros retorna 0)
+const overdue = (daysFromNow: number) => daysFromNow < 0 ? Math.abs(daysFromNow) : 0;
 
 export const DEMO = {
   company: { id: "demo", tradeName: "Winner Academia", cnpj: "12345678000199" },
@@ -109,25 +111,25 @@ export const DEMO = {
 
   entries: [
     // RECEBÍVEIS
-    { id: "e01", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 1/3 (PV-0001)", amount: fmt(3500),  dueDate: d(-15), status: "OVERDUE",  settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e02", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 2/3 (PV-0001)", amount: fmt(3500),  dueDate: d(15),  status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e03", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 3/3 (PV-0001)", amount: fmt(3500),  dueDate: d(45),  status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e04", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades Itaú Unibanco (PV-0002)",           amount: fmt(7000),  dueDate: d(-5),  status: "SETTLED",  settledAmount: fmt(7000),costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e05", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades Siemens Brasil (PV-0003)",          amount: fmt(5250),  dueDate: d(20),  status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e06", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Ana Paula Ferreira",     amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e07", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Bruno Oliveira Lima",    amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e08", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Camila Rodrigues",       amount: fmt(350),   dueDate: d(-8),  status: "OVERDUE",  settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e09", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Diego Mendes Costa",     amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e10", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Mai/2026 — Elena Souza Martins",    amount: fmt(350),   dueDate: d(-20), status: "SETTLED",  settledAmount: fmt(350), costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e11", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Felipe Carvalho",        amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
-    { id: "e12", direction: "RECEIVABLE", category: "MATRICULA",   description: "Matrícula — Gabriela Nascimento",               amount: fmt(200),   dueDate: d(3),   status: "OPEN",     settledAmount: "0.00",   costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e01", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 1/3 (PV-0001)", amount: fmt(3500),  dueDate: d(-15), status: "OVERDUE",  settledAmount: "0.00",    daysOverdue: overdue(-15), costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e02", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 2/3 (PV-0001)", amount: fmt(3500),  dueDate: d(15),  status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(15),  costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e03", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades BeneCorp — Parcela 3/3 (PV-0001)", amount: fmt(3500),  dueDate: d(45),  status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(45),  costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e04", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades Itaú Unibanco (PV-0002)",           amount: fmt(7000),  dueDate: d(-5),  status: "SETTLED",  settledAmount: fmt(7000), daysOverdue: 0,             costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e05", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidades Siemens Brasil (PV-0003)",          amount: fmt(5250),  dueDate: d(20),  status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(20),  costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e06", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Ana Paula Ferreira",      amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(5),   costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e07", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Bruno Oliveira Lima",     amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(5),   costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e08", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Camila Rodrigues",        amount: fmt(350),   dueDate: d(-8),  status: "OVERDUE",  settledAmount: "0.00",    daysOverdue: overdue(-8),  costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e09", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Diego Mendes Costa",      amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(5),   costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e10", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Mai/2026 — Elena Souza Martins",     amount: fmt(350),   dueDate: d(-20), status: "SETTLED",  settledAmount: fmt(350),  daysOverdue: 0,             costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e11", direction: "RECEIVABLE", category: "MENSALIDADE", description: "Mensalidade Jun/2026 — Felipe Carvalho",         amount: fmt(350),   dueDate: d(5),   status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(5),   costCenter: { name: "Matrículas e Mensalidades" } },
+    { id: "e12", direction: "RECEIVABLE", category: "MATRICULA",   description: "Matrícula — Gabriela Nascimento",                amount: fmt(200),   dueDate: d(3),   status: "OPEN",     settledAmount: "0.00",    daysOverdue: overdue(3),   costCenter: { name: "Matrículas e Mensalidades" } },
     // PAGÁVEIS
-    { id: "e13", direction: "PAYABLE", category: "COMPRAS",   description: "Equipamentos esportivos — SportTennis (PO-0001)", amount: fmt(16680), dueDate: d(10),  status: "OPEN",    settledAmount: "0.00",    costCenter: { name: "Compras e Suprimentos" } },
-    { id: "e14", direction: "PAYABLE", category: "COMPRAS",   description: "Material de quadras — TotalManutenção (PO-0002)", amount: fmt(4800),  dueDate: d(20),  status: "OPEN",    settledAmount: "0.00",    costCenter: { name: "Compras e Suprimentos" } },
-    { id: "e15", direction: "PAYABLE", category: "FOLHA",     description: "Folha de pagamento — Junho 2026",                  amount: fmt(12500), dueDate: d(25),  status: "OPEN",    settledAmount: "0.00",    costCenter: { name: "Recursos Humanos" } },
-    { id: "e16", direction: "PAYABLE", category: "ALUGUEL",   description: "Aluguel das quadras — Junho 2026",                 amount: fmt(8000),  dueDate: d(28),  status: "OPEN",    settledAmount: "0.00",    costCenter: { name: "Quadras e Operações" } },
-    { id: "e17", direction: "PAYABLE", category: "ENERGIA",   description: "Conta de energia elétrica — Maio 2026",            amount: fmt(2340),  dueDate: d(-3),  status: "SETTLED", settledAmount: fmt(2340), costCenter: { name: "Quadras e Operações" } },
-    { id: "e18", direction: "PAYABLE", category: "MARKETING", description: "Marketing digital — Instagram/Google Ads",         amount: fmt(1500),  dueDate: d(8),   status: "OPEN",    settledAmount: "0.00",    costCenter: { name: "Marketing" } },
+    { id: "e13", direction: "PAYABLE", category: "COMPRAS",   description: "Equipamentos esportivos — SportTennis (PO-0001)", amount: fmt(16680), dueDate: d(10),  status: "OPEN",    settledAmount: "0.00",    daysOverdue: overdue(10), costCenter: { name: "Compras e Suprimentos" } },
+    { id: "e14", direction: "PAYABLE", category: "COMPRAS",   description: "Material de quadras — TotalManutenção (PO-0002)", amount: fmt(4800),  dueDate: d(20),  status: "OPEN",    settledAmount: "0.00",    daysOverdue: overdue(20), costCenter: { name: "Compras e Suprimentos" } },
+    { id: "e15", direction: "PAYABLE", category: "FOLHA",     description: "Folha de pagamento — Junho 2026",                  amount: fmt(12500), dueDate: d(25),  status: "OPEN",    settledAmount: "0.00",    daysOverdue: overdue(25), costCenter: { name: "Recursos Humanos" } },
+    { id: "e16", direction: "PAYABLE", category: "ALUGUEL",   description: "Aluguel das quadras — Junho 2026",                 amount: fmt(8000),  dueDate: d(28),  status: "OPEN",    settledAmount: "0.00",    daysOverdue: overdue(28), costCenter: { name: "Quadras e Operações" } },
+    { id: "e17", direction: "PAYABLE", category: "ENERGIA",   description: "Conta de energia elétrica — Maio 2026",            amount: fmt(2340),  dueDate: d(-3),  status: "SETTLED", settledAmount: fmt(2340), daysOverdue: 0,            costCenter: { name: "Quadras e Operações" } },
+    { id: "e18", direction: "PAYABLE", category: "MARKETING", description: "Marketing digital — Instagram/Google Ads",         amount: fmt(1500),  dueDate: d(8),   status: "OPEN",    settledAmount: "0.00",    daysOverdue: overdue(8),  costCenter: { name: "Marketing" } },
   ],
 
   agingReceivable: [
