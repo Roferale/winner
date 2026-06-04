@@ -3,6 +3,7 @@ import type { Route } from "next";
 import {
   BarChart3,
   FileText,
+  HelpCircle,
   Landmark,
   Settings,
   UserPlus,
@@ -18,7 +19,8 @@ const groups = [
       { href: "/alunos"         as Route, label: "Alunos",         icon: UsersRound },
       { href: "/cadastro"       as Route, label: "Cadastro",       icon: UserPlus   },
       { href: "/relatorios"     as Route, label: "Relatórios",     icon: FileText   },
-      { href: "/configuracoes"  as Route, label: "Configurações",  icon: Settings   }
+      { href: "/configuracoes"  as Route, label: "Configurações",  icon: Settings   },
+      { href: "/ajuda"          as Route, label: "Ajuda",          icon: HelpCircle }
     ]
   }
 ];
