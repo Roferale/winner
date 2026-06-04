@@ -24,12 +24,14 @@ export default function LoginPage() {
   const [loading,  setLoading]  = useState(false);
   const [error,    setError]    = useState("");
 
-  const fmtCnpj = (v: string) =>
-    v.replace(/\D/g, "").slice(0, 14)
-      .replace(/(\d{2})(\d)/, "$1.$2")
-      .replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
-      .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4")
-      .replace(/(\d{4})(\d)/, "$1-$2");
+  const fmtCnpj = (v: string) => {
+    const n = v.replace(/\D/g, "").slice(0, 14);
+    if (n.length <= 2)  return n;
+    if (n.length <= 5)  return `${n.slice(0,2)}.${n.slice(2)}`;
+    if (n.length <= 8)  return `${n.slice(0,2)}.${n.slice(2,5)}.${n.slice(5)}`;
+    if (n.length <= 12) return `${n.slice(0,2)}.${n.slice(2,5)}.${n.slice(5,8)}/${n.slice(8)}`;
+    return `${n.slice(0,2)}.${n.slice(2,5)}.${n.slice(5,8)}/${n.slice(8,12)}-${n.slice(12)}`;
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
