@@ -1,8 +1,10 @@
+import { DEMO } from "./demo-data";
+
 export type DecimalLike = string | number;
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
-async function fetchJson<T>(path: string, fallback: T = {} as T): Promise<T> {
+async function fetchJson<T>(path: string, fallback: T): Promise<T> {
   try {
     const response = await fetch(`${apiUrl}${path}`, { cache: "no-store" });
     if (!response.ok) return fallback;
@@ -19,74 +21,136 @@ export const formatQuantity = (value: DecimalLike) =>
   new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 3 }).format(Number(value));
 
 export const formatDate = (value: string) =>
-  new Intl.DateTimeFormat("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  }).format(new Date(value));
-
-const EMPTY_LIST = { items: [], entries: [], orders: [], people: [], products: [], warehouses: [], costCenters: [], taxRules: [], invoices: [], balances: [], movements: [], tasks: [], auditLogs: [], students: [], classes: [], bookings: [], courts: [], tournaments: [], boms: [] };
-
-export async function getOverview() {
-  return fetchJson<any>("/demo/overview", { receivable: 0, payable: 0, overdue: 0, netBalance: 0, entries: [], students: [] });
-}
+  new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(value));
 
 export async function getMasterData() {
-  return fetchJson<any>("/demo/master-data", { company: { id: "demo", tradeName: "Winner Academia", cnpj: "12345678000199" }, products: [], customers: [], suppliers: [], warehouses: [], costCenters: [], taxRules: [], people: [] });
+  return fetchJson<any>("/demo/master-data", {
+    company: DEMO.company,
+    products: DEMO.products,
+    customers: DEMO.customers,
+    suppliers: DEMO.suppliers,
+    warehouses: DEMO.warehouses,
+    costCenters: DEMO.costCenters,
+    taxRules: DEMO.taxRules,
+    people: DEMO.people,
+  });
 }
 
-export async function getCommercial() {
-  return fetchJson<any>("/demo/commercial", []);
-}
-
-export async function getPurchases() {
-  return fetchJson<any>("/demo/purchases", []);
-}
-
-export async function getFinance() {
-  return fetchJson<any>("/demo/finance", { receivable: 0, payable: 0, overdue: 0, netBalance: 0, entries: [], aging: [] });
+export async function getOverview() {
+  return fetchJson<any>("/demo/overview", {
+    summary: DEMO.summary,
+    entries: DEMO.entries,
+    agingReceivable: DEMO.agingReceivable,
+    agingPayable: DEMO.agingPayable,
+    alunos: DEMO.alunos,
+  });
 }
 
 export async function getFinancialControl() {
-  return fetchJson<any>("/demo/financial-control", { summary: { totalReceivable: 0, totalPayable: 0, overdueReceivable: 0, overduePayable: 0, netBalance: 0 }, entries: [], agingReceivable: [], agingPayable: [] });
+  return fetchJson<any>("/demo/financial-control", {
+    summary: DEMO.summary,
+    entries: DEMO.entries,
+    agingReceivable: DEMO.agingReceivable,
+    agingPayable: DEMO.agingPayable,
+  });
 }
 
-export async function getAlunos() {
-  return fetchJson<any>("/demo/alunos", { alunos: [], totals: { totalAlunos: 0, comAcesso: 0, semAcesso: 0 } });
+export async function getFinance() {
+  return fetchJson<any>("/demo/finance", {
+    summary: DEMO.summary,
+    entries: DEMO.entries,
+    agingReceivable: DEMO.agingReceivable,
+    agingPayable: DEMO.agingPayable,
+  });
+}
+
+export async function getCommercial() {
+  return fetchJson<any>("/demo/commercial", DEMO.orders);
+}
+
+export async function getPurchases() {
+  return fetchJson<any>("/demo/purchases", DEMO.purchaseOrders);
 }
 
 export async function getFiscal() {
-  return fetchJson<any>("/demo/fiscal", { invoices: [], taxRules: [], certificates: [] });
+  return fetchJson<any>("/demo/fiscal", {
+    invoices: DEMO.invoices,
+    taxRules: DEMO.taxRules,
+    certificates: DEMO.certificates,
+  });
 }
 
 export async function getInventory() {
-  return fetchJson<any>("/demo/inventory", { balances: [], movements: [] });
+  return fetchJson<any>("/demo/inventory", {
+    balances: DEMO.balances,
+    movements: DEMO.movements,
+  });
 }
 
 export async function getProduction() {
-  return fetchJson<any>("/demo/production", { orders: [], boms: [], products: [], warehouses: [] });
+  return fetchJson<any>("/demo/production", {
+    orders: DEMO.productionOrders,
+    boms: DEMO.boms,
+    products: DEMO.products,
+    warehouses: DEMO.warehouses,
+  });
 }
 
 export async function getPeople() {
-  return fetchJson<any>("/demo/people", { people: [], products: [], warehouses: [], costCenters: [], taxRules: [] });
+  return fetchJson<any>("/demo/people", {
+    people: DEMO.people,
+    products: DEMO.products,
+    warehouses: DEMO.warehouses,
+    costCenters: DEMO.costCenters,
+    taxRules: DEMO.taxRules,
+  });
+}
+
+export async function getAlunos() {
+  return fetchJson<any>("/demo/alunos", {
+    alunos: DEMO.alunos,
+    totals: {
+      totalAlunos: DEMO.alunos.length,
+      comAcesso: DEMO.alunos.filter((a: any) => a.hasPortalAccess).length,
+      semAcesso: DEMO.alunos.filter((a: any) => !a.hasPortalAccess).length,
+    },
+  });
 }
 
 export async function getGovernance() {
-  return fetchJson<any>("/demo/governance", { tasks: [], auditLogs: [] });
+  return fetchJson<any>("/demo/governance", {
+    tasks: DEMO.tasks,
+    auditLogs: DEMO.auditLogs,
+  });
 }
 
 export async function getBi() {
-  return fetchJson<any>("/demo/bi", { kpis: { revenue: 0, expense: 0, inventoryValue: 0, operatingResult: 0 }, dre: [], topInventory: [] });
+  return fetchJson<any>("/demo/bi", {
+    kpis: DEMO.kpis,
+    dre: DEMO.dre,
+    topInventory: DEMO.topInventory,
+  });
 }
 
 export async function getAulas() {
-  return fetchJson<any>("/demo/aulas", { turmas: [], agendamentos: [], totalVagas: 0, totalMatriculados: 0, shareUrl: "" });
+  return fetchJson<any>("/demo/aulas", {
+    turmas: DEMO.turmas,
+    agendamentos: DEMO.agendamentos,
+    totalVagas: DEMO.totalVagas,
+    totalMatriculados: DEMO.totalMatriculados,
+    shareUrl: DEMO.shareUrl,
+  });
 }
 
 export async function getQuadras() {
-  return fetchJson<any>("/demo/quadras", { quadras: [], agendaHoje: [] });
+  return fetchJson<any>("/demo/quadras", {
+    quadras: DEMO.quadras,
+    agendaHoje: DEMO.agendaHoje,
+  });
 }
 
 export async function getTorneios() {
-  return fetchJson<any>("/demo/torneios", { torneios: [] });
+  return fetchJson<any>("/demo/torneios", {
+    torneios: DEMO.torneios,
+  });
 }
