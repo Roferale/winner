@@ -8,7 +8,7 @@ import { SectionCard } from "../components/section-card";
 import { StatCard } from "../components/stat-card";
 import { formatCurrency, getAlunos, getMasterData } from "../lib/erp";
 
-const WEB_URL = process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
+const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
 
 function PortalStatus({ hasAccess, firstAccess }: { hasAccess: boolean; firstAccess: boolean }) {
   if (hasAccess)    return <span className="status-badge status-success"><CheckCircle size={11} /> Ativo</span>;

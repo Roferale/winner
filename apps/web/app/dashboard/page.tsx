@@ -16,7 +16,7 @@ import { ErpShell } from "../components/erp-shell";
 import { StatusBadge } from "../components/status-badge";
 import { formatCurrency, formatDate, getAlunos, getFinancialControl, getMasterData } from "../lib/erp";
 
-const WEB_URL = process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
+const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
 
 export default async function DashboardPage() {
   const [data, alunos, master] = await Promise.all([

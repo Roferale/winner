@@ -6,7 +6,7 @@ import { SectionCard } from "../components/section-card";
 import { StatCard } from "../components/stat-card";
 import { getAulas, getMasterData } from "../lib/erp";
 
-const WEB_URL = process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
+const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? process.env.NEXT_PUBLIC_API_URL?.replace(":3001", ":3000") ?? "http://localhost:3000";
 
 const NIVEL_COLOR: Record<string, string> = {
   Iniciante:    "var(--success)",
