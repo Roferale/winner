@@ -110,7 +110,10 @@ select {
   color: #dde8dd;
   transition: transform 0.22s ease;
   z-index: 20;
-  overflow: hidden;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 /* Logo block */
