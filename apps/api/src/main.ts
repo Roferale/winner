@@ -1278,6 +1278,10 @@ app.post("/payment/:entryId/pay", {
     where: { id: entryId },
     data: { status: FinancialStatus.SETTLED, settledAmount: entry.amount }
   });
+  const methodLabel: Record<string, string> = {
+    PIX: "PIX", CREDIT_CARD: "Cartão de crédito", BOLETO: "Boleto bancário"
+  };
+
   await audit(company.id, "PAGAMENTO_REALIZADO", "FinancialEntry", entryId, {
     descricao: entry.description,
     valor:     `R$ ${Number(entry.amount).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
@@ -1286,10 +1290,6 @@ app.post("/payment/:entryId/pay", {
     de:   { status: "Em aberto" },
     para: { status: "Pago" }
   });
-
-  const methodLabel: Record<string, string> = {
-    PIX: "PIX", CREDIT_CARD: "Cartão de crédito", BOLETO: "Boleto bancário"
-  };
 
   return {
     ok: true,
@@ -1657,7 +1657,7 @@ async function audit(
   action: string,
   entity: string,
   entityId: string,
-  payload: Record<string, unknown> = {},
+  payload: Record<string, unknown> | unknown[] = {},
   userId?: string | null
 ) {
   await prisma.auditLog.create({
