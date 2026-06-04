@@ -3,7 +3,7 @@ import { ErpShell } from "../components/erp-shell";
 import { getMasterData } from "../lib/erp";
 
 export default async function AjudaLayout({ children }: { children: React.ReactNode }) {
-  const headersList = headers();
+  const headersList = await headers();
   const pathname = headersList.get("x-pathname") ?? "/ajuda";
 
   let companyName = "Winner Academia";

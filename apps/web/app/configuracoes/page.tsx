@@ -610,7 +610,7 @@ function LogRow({ log, isLast }: { log: any; isLast: boolean }) {
               </span>
             )}
           </div>
-          {hasDiff && <DiffRow before={p.de} after={p.para} />}
+          {hasDiff && <DiffRow before={p.de as DiffValue} after={p.para as DiffValue} />}
           <div style={{ display:"flex",gap:12,fontSize:11,color:"var(--text-faint)" }}>
             <span>👤 {usuario}</span>
             <span>🕐 {fmtDate(log.createdAt)}</span>

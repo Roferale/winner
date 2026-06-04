@@ -54,7 +54,8 @@ export default function LoginPage() {
         body: JSON.stringify({ token: json.accessToken }),
       });
 
-      router.push(next);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      router.push(next as any);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Erro ao entrar");
     } finally {

@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd ../.. && npm run build --workspace @erp/web",
+  "buildCommand": "cd ../.. && npm install && npm run build --workspace @erp/web",
   "installCommand": "cd ../.. && npm install",
   "framework": "nextjs"
 }
