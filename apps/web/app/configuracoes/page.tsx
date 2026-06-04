@@ -557,7 +557,8 @@ function formatObj(obj: unknown): string {
     .join(" · ");
 }
 
-function DiffRow({ before, after }: { before: unknown; after: unknown }) {
+type DiffValue = Record<string, unknown> | string | number | null | undefined;
+function DiffRow({ before, after }: { before: DiffValue; after: DiffValue }) {
   if (!before && !after) return null;
   return (
     <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:4,flexWrap:"wrap" }}>
