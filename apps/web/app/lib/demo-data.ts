@@ -131,16 +131,16 @@ export const DEMO = {
   ],
 
   agingReceivable: [
-    { bucket: "A vencer 1–15 dias",  total: fmt(350 * 5 + 200) },
-    { bucket: "A vencer 16–30 dias", total: fmt(5250 + 3500) },
-    { bucket: "A vencer 31–60 dias", total: fmt(3500) },
-    { bucket: "Vencidos",            total: fmt(3500 + 350) },
+    { label: "A vencer 1–15 dias",  count: 6, amount: 350 * 5 + 200 },
+    { label: "A vencer 16–30 dias", count: 2, amount: 5250 + 3500 },
+    { label: "A vencer 31–60 dias", count: 1, amount: 3500 },
+    { label: "Vencidos",            count: 2, amount: 3500 + 350 },
   ],
 
   agingPayable: [
-    { bucket: "A vencer 1–15 dias",  total: fmt(16680 + 1500) },
-    { bucket: "A vencer 16–30 dias", total: fmt(4800 + 12500 + 8000) },
-    { bucket: "Vencidos",            total: "0.00" },
+    { label: "A vencer 1–15 dias",  count: 2, amount: 16680 + 1500 },
+    { label: "A vencer 16–30 dias", count: 3, amount: 4800 + 12500 + 8000 },
+    { label: "Vencidos",            count: 0, amount: 0 },
   ],
 
   // BI
