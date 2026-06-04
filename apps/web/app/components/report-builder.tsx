@@ -712,9 +712,8 @@ function DesktopReportBuilder({ data }: { data: any }) {
           {/* Drop zone at the bottom */}
           {canvas.length > 0 && (
             <div className="no-print"
-              onDragOver={e => e.preventDefault()} onDrop={onDropBottom}
+              onDragOver={e => onDragOver(e, "bottom")} onDrop={onDropBottom}
               style={{ marginTop:10, border:`2px dashed ${dragOver === "bottom" ? "var(--primary)" : "var(--border)"}`, borderRadius:"var(--radius-lg)", padding:"16px", textAlign:"center", color: dragOver === "bottom" ? "var(--primary)" : "var(--text-faint)", fontSize:12, transition:"all 0.12s", background: dragOver === "bottom" ? "var(--primary-soft)" : "transparent" }}
-              onDragOver={e => onDragOver(e, "bottom")}
               onDragLeave={() => setDragOver(null)}
             >
               Solte aqui para adicionar ao final
