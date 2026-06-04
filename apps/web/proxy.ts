@@ -8,7 +8,7 @@ export function proxy(req: NextRequest) {
   if (!isProtected) return NextResponse.next();
 
   const token = req.cookies.get("erp_token")?.value;
-  if (!token) {
+  if (!token || token === "") {
     const url = req.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", pathname);

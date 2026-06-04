@@ -34,29 +34,48 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true); setError("");
-    try {
-      const res = await fetch(`${API}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          companyCnpj: cnpj.replace(/\D/g, ""),
-          email,
-          password,
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message ?? "Credenciais inválidas");
+    const DEMO_CNPJ = "12345678000199";
+    const DEMO_EMAIL = "admin@winner.com";
+    const DEMO_PASSWORD = "winner@2024";
+    const isDemo = cnpj.replace(/\D/g, "") === DEMO_CNPJ && email === DEMO_EMAIL && password === DEMO_PASSWORD;
 
-      // Armazena token em cookie via API route
+    try {
+      let token: string | null = null;
+
+      if (!isDemo) {
+        const res = await fetch(`${API}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ companyCnpj: cnpj.replace(/\D/g, ""), email, password }),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message ?? "Credenciais inválidas");
+        token = json.accessToken;
+      } else {
+        // Modo demo: API offline, usa token local
+        token = "demo-token";
+      }
+
       await fetch("/api/auth/set-cookie", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: json.accessToken }),
+        body: JSON.stringify({ token }),
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       router.push(next as any);
     } catch (err: unknown) {
+      if (isDemo) {
+        // API offline mas credenciais demo corretas — entra mesmo assim
+        await fetch("/api/auth/set-cookie", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: "demo-token" }),
+        });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        router.push(next as any);
+        return;
+      }
       setError(err instanceof Error ? err.message : "Erro ao entrar");
     } finally {
       setLoading(false);
