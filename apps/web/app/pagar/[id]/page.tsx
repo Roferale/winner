@@ -4,16 +4,24 @@ import { DEMO } from "../../lib/demo-data";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
+const IS_DEMO = API_URL.includes("localhost");
+
 async function getEntry(id: string) {
+  // Modo demo (sem API): busca nos dados locais
+  if (IS_DEMO) return DEMO.entries.find((e: any) => e.id === id) ?? null;
+
   try {
-    const res = await fetch(`${API_URL}/payment/${id}`, { cache: "no-store" });
-    if (!res.ok) {
-      // Fallback: busca no demo-data pelo id
-      return DEMO.entries.find((e: any) => e.id === id) ?? null;
-    }
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch(`${API_URL}/payment/${id}`, {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return null;
     return res.json();
   } catch {
-    return DEMO.entries.find((e: any) => e.id === id) ?? null;
+    return null;
   }
 }
 
@@ -41,7 +49,7 @@ export default async function PagarPage({ params }: { params: { id: string } }) 
     <div style={{ background:"var(--surface)",borderRadius:14,border:"1px solid var(--border)",padding:32,textAlign:"center" }}>
       <XCircle size={40} style={{ color:"var(--danger)",marginBottom:12 }} />
       <h2 style={{ margin:"0 0 8px",fontSize:18 }}>Cobrança não encontrada</h2>
-      <p style={{ margin:0,color:"var(--text-soft)",fontSize:14 }}>Este link de pagamento é inválido ou expirou.</p>
+      <p style={{ margin:0,color:"var(--text-soft)",fontSize:14 }}>Este link de pagamento é inválido, expirou ou o sistema está inicializando. Aguarde 1 minuto e tente novamente.</p>
     </div>
   );
 
