@@ -1657,7 +1657,8 @@ async function audit(
   action: string,
   entity: string,
   entityId: string,
-  payload: Record<string, unknown> | unknown[] = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload: any = {},
   userId?: string | null
 ) {
   await prisma.auditLog.create({
