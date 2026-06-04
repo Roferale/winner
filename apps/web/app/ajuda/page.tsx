@@ -68,15 +68,15 @@ const KB: Section[] = [
         title: "Configuração inicial do sistema",
         content: (
           <div className="kb-article-body">
-            <p>Antes de iniciar as operações, configure os dados base na ordem abaixo:</p>
+            <p>Antes de iniciar as operações, configure os dados base na ordem abaixo. Os itens 2 a 6 são feitos todos em <code>/cadastros</code>.</p>
             <ol>
-              <li>Configure os dados da empresa em <strong>Configurações</strong></li>
-              <li>Cadastre os <strong>Depósitos</strong> (armazéns)</li>
-              <li>Cadastre os <strong>Centros de Custo</strong></li>
-              <li>Cadastre as <strong>Regras Fiscais</strong></li>
-              <li>Cadastre os <strong>Produtos</strong></li>
-              <li>Cadastre <strong>Clientes</strong> e <strong>Fornecedores</strong></li>
-              <li>Configure as chaves de pagamento (PIX, Mercado Pago, PagSeguro)</li>
+              <li>Configure os dados da empresa em <strong>Configurações</strong> (aba Empresa)</li>
+              <li>Cadastre os <strong>Depósitos</strong> — campos: Código e Descrição</li>
+              <li>Cadastre os <strong>Centros de Custo</strong> — campos: Código, Descrição e Grupo DRE</li>
+              <li>Cadastre as <strong>Regras Fiscais</strong> — campos: Código, Descrição, Operação, CFOP, CST, alíquotas ICMS/PIS/COFINS/ISS</li>
+              <li>Cadastre os <strong>Produtos</strong> — campos: SKU, Nome, Tipo, Unidade, Regra Fiscal, Preço de custo e venda</li>
+              <li>Cadastre <strong>Clientes</strong> e <strong>Fornecedores</strong> — campos: Razão Social, Nome Fantasia, CNPJ/CPF, E-mail, Telefone, Cidade, UF</li>
+              <li>Configure as chaves de pagamento em <strong>Configurações</strong> (aba Pagamentos): PIX, Mercado Pago, PagSeguro</li>
             </ol>
             <div className="kb-tip">Todos os cadastros devem ser feitos antes de iniciar operações transacionais (vendas, compras, produção).</div>
           </div>
@@ -281,17 +281,19 @@ const KB: Section[] = [
         title: "Mestre de dados",
         content: (
           <div className="kb-article-body">
-            <p>Acesse <code>/cadastros</code> para registrar as entidades base.</p>
+            <p>Acesse <code>/cadastros</code> para registrar todas as entidades base do sistema.</p>
             <table className="kb-table">
-              <thead><tr><th>Entidade</th><th>Campos principais</th></tr></thead>
+              <thead><tr><th>Entidade</th><th>Campos</th></tr></thead>
               <tbody>
-                <tr><td>Produto</td><td>SKU, Nome, Tipo, Unidade</td></tr>
-                <tr><td>Cliente / Fornecedor</td><td>Nome, CPF/CNPJ, Cidade, Estado</td></tr>
-                <tr><td>Depósito</td><td>Nome, localização</td></tr>
-                <tr><td>Centro de Custo</td><td>Código, Nome</td></tr>
-                <tr><td>Regra Fiscal</td><td>Código, Nome, Tipo de operação</td></tr>
+                <tr><td><strong>Produto</strong></td><td>SKU, Nome, Tipo, Unidade, Regra Fiscal, Preço de custo, Preço de venda</td></tr>
+                <tr><td><strong>Cliente</strong></td><td>Razão Social, Nome Fantasia, CNPJ/CPF, E-mail, Telefone, Cidade, UF</td></tr>
+                <tr><td><strong>Fornecedor</strong></td><td>Razão Social, Nome Fantasia, CNPJ/CPF, E-mail, Telefone, Cidade, UF</td></tr>
+                <tr><td><strong>Depósito</strong></td><td>Código, Descrição</td></tr>
+                <tr><td><strong>Centro de Custo</strong></td><td>Código, Descrição, Grupo DRE</td></tr>
+                <tr><td><strong>Regra Fiscal</strong></td><td>Código, Descrição, Operação (Venda/Compra), CFOP, CST ICMS/PIS/COFINS, alíquotas ICMS/PIS/COFINS/ISS</td></tr>
               </tbody>
             </table>
+            <div className="kb-tip">A tabela de Pessoas (clientes, fornecedores e colaboradores) é atualizada automaticamente após cada cadastro.</div>
           </div>
         ),
       },
