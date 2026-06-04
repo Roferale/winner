@@ -116,62 +116,6 @@ const KB: Section[] = [
     ],
   },
   {
-    id: "comercial",
-    label: "Comercial",
-    articles: [
-      {
-        id: "criar-pedido-venda",
-        title: "Criar pedido de venda",
-        content: (
-          <div className="kb-article-body">
-            <p>Acesse <code>/comercial</code> para gerenciar pedidos de venda.</p>
-            <ol>
-              <li>Clique em <strong>Novo Pedido</strong></li>
-              <li>Selecione o <strong>Cliente</strong>, <strong>Centro de Custo</strong>, <strong>Regra Fiscal</strong> e <strong>Depósito</strong></li>
-              <li>Adicione os produtos com quantidade, preço unitário e desconto</li>
-              <li>Clique em <strong>Salvar</strong></li>
-            </ol>
-            <h3>O que o sistema faz automaticamente</h3>
-            <ul>
-              <li>Gera a Nota Fiscal (NF-e)</li>
-              <li>Cria as parcelas a receber conforme condição de pagamento</li>
-              <li>Registra saída de estoque (OUTBOUND)</li>
-              <li>Registra auditoria da operação</li>
-            </ul>
-          </div>
-        ),
-      },
-    ],
-  },
-  {
-    id: "compras",
-    label: "Compras",
-    articles: [
-      {
-        id: "registrar-compra",
-        title: "Registrar ordem de compra",
-        content: (
-          <div className="kb-article-body">
-            <p>Acesse <code>/compras</code> para registrar entradas de mercadoria.</p>
-            <ol>
-              <li>Clique em <strong>Nova Compra</strong></li>
-              <li>Preencha: Fornecedor, Centro de Custo, Regra Fiscal, Depósito, Número do documento e Chave XML</li>
-              <li>Adicione os produtos com quantidade e preço unitário</li>
-              <li>Clique em <strong>Salvar</strong></li>
-            </ol>
-            <h3>O que o sistema faz automaticamente</h3>
-            <ul>
-              <li>Entrada de estoque (INBOUND)</li>
-              <li>Gera conta a pagar (prazo padrão: 15 dias)</li>
-              <li>Gera Nota Fiscal de entrada</li>
-              <li>Registra auditoria</li>
-            </ul>
-          </div>
-        ),
-      },
-    ],
-  },
-  {
     id: "financeiro",
     label: "Financeiro",
     articles: [
@@ -209,64 +153,6 @@ const KB: Section[] = [
         content: (
           <div className="kb-article-body">
             <p>Na tabela de recebíveis, clique em <strong>Cobrar</strong>. O sistema gera um link de pagamento que pode ser enviado ao cliente via WhatsApp ou e-mail.</p>
-          </div>
-        ),
-      },
-    ],
-  },
-  {
-    id: "estoque",
-    label: "Estoque",
-    articles: [
-      {
-        id: "estoque-visao",
-        title: "Visualizar saldo e movimentações",
-        content: (
-          <div className="kb-article-body">
-            <p>Acesse <code>/estoque</code>. Esta tela é somente leitura — os movimentos são gerados automaticamente.</p>
-            <table className="kb-table">
-              <thead><tr><th>Tipo de Movimento</th><th>Origem</th></tr></thead>
-              <tbody>
-                <tr><td>INBOUND</td><td>Entrada por compra</td></tr>
-                <tr><td>OUTBOUND</td><td>Saída por venda</td></tr>
-                <tr><td>PRODUCTION_CONSUMPTION</td><td>Consumo em produção</td></tr>
-                <tr><td>PRODUCTION_FINISHED</td><td>Produto acabado</td></tr>
-              </tbody>
-            </table>
-          </div>
-        ),
-      },
-    ],
-  },
-  {
-    id: "producao",
-    label: "Produção",
-    articles: [
-      {
-        id: "cadastrar-bom",
-        title: "Cadastrar Lista de Materiais (BOM)",
-        content: (
-          <div className="kb-article-body">
-            <ol>
-              <li>Acesse <code>/producao</code> e abra a aba <strong>BOM</strong></li>
-              <li>Clique em <strong>Nova BOM</strong></li>
-              <li>Preencha: Produto acabado, Componente, Código/versão e Quantidade por unidade produzida</li>
-              <li>Clique em <strong>Salvar</strong></li>
-            </ol>
-          </div>
-        ),
-      },
-      {
-        id: "ordem-producao",
-        title: "Criar ordem de produção",
-        content: (
-          <div className="kb-article-body">
-            <ol>
-              <li>Clique em <strong>Nova Ordem de Produção</strong></li>
-              <li>Preencha: Produto, Depósito de saída e Quantidade</li>
-              <li>Clique em <strong>Finalizar Produção</strong></li>
-            </ol>
-            <p>O sistema consome os componentes da BOM e adiciona o produto acabado ao estoque automaticamente.</p>
           </div>
         ),
       },
@@ -357,49 +243,6 @@ const KB: Section[] = [
               <li>Escolha Mercado Pago ou PagSeguro</li>
               <li>Conclua o pagamento na plataforma escolhida</li>
             </ol>
-          </div>
-        ),
-      },
-    ],
-  },
-  {
-    id: "bi-relatorios",
-    label: "BI & Relatórios",
-    articles: [
-      {
-        id: "bi-visao",
-        title: "Painel de Business Intelligence",
-        content: (
-          <div className="kb-article-body">
-            <p>Acesse <code>/bi</code> para visualizar dados consolidados:</p>
-            <table className="kb-table">
-              <thead><tr><th>Indicador</th><th>Descrição</th></tr></thead>
-              <tbody>
-                <tr><td>Receita</td><td>Total de vendas realizadas</td></tr>
-                <tr><td>Despesa</td><td>Total de contas pagas</td></tr>
-                <tr><td>Valor em Estoque</td><td>Custo total do inventário</td></tr>
-                <tr><td>Resultado Operacional</td><td>Receita menos Despesa</td></tr>
-              </tbody>
-            </table>
-            <p>Também exibe DRE simplificado e top produtos em estoque por valor.</p>
-          </div>
-        ),
-      },
-      {
-        id: "relatorios",
-        title: "Gerar relatórios",
-        content: (
-          <div className="kb-article-body">
-            <p>Acesse <code>/relatorios</code> e selecione o tipo:</p>
-            <ul>
-              <li>Resumo Geral</li>
-              <li>Contas a Receber</li>
-              <li>Contas a Pagar</li>
-              <li>Títulos Liquidados</li>
-              <li>Aging (vencimentos)</li>
-              <li>Alunos</li>
-            </ul>
-            <p>Clique em gerar para exportar ou imprimir.</p>
           </div>
         ),
       },
