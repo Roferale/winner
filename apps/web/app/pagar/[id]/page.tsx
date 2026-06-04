@@ -1,15 +1,19 @@
 import { CheckCircle, XCircle } from "lucide-react";
 import { PaymentForm } from "../../components/payment-form";
+import { DEMO } from "../../lib/demo-data";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 async function getEntry(id: string) {
   try {
     const res = await fetch(`${API_URL}/payment/${id}`, { cache: "no-store" });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      // Fallback: busca no demo-data pelo id
+      return DEMO.entries.find((e: any) => e.id === id) ?? null;
+    }
     return res.json();
   } catch {
-    return null;
+    return DEMO.entries.find((e: any) => e.id === id) ?? null;
   }
 }
 
